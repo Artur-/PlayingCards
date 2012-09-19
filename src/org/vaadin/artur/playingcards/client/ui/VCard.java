@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.vaadin.artur.playingcards.client.ui.Suite.Color;
+import org.vaadin.artur.playingcards.criteria.AcceptCardWithColor;
+import org.vaadin.artur.playingcards.criteria.AcceptCardWithRank;
+import org.vaadin.artur.playingcards.criteria.AcceptCardWithSuite;
 
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
@@ -14,20 +17,21 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.vaadin.terminal.gwt.client.ApplicationConnection;
-import com.vaadin.terminal.gwt.client.BrowserInfo;
-import com.vaadin.terminal.gwt.client.ComponentConnector;
-import com.vaadin.terminal.gwt.client.ConnectorMap;
-import com.vaadin.terminal.gwt.client.MouseEventDetails;
-import com.vaadin.terminal.gwt.client.Paintable;
-import com.vaadin.terminal.gwt.client.UIDL;
-import com.vaadin.terminal.gwt.client.Util;
-import com.vaadin.terminal.gwt.client.ui.ClickEventHandler;
-import com.vaadin.terminal.gwt.client.ui.dd.VAbstractDropHandler;
-import com.vaadin.terminal.gwt.client.ui.dd.VAcceptCriterion;
-import com.vaadin.terminal.gwt.client.ui.dd.VDragAndDropManager;
-import com.vaadin.terminal.gwt.client.ui.dd.VDragEvent;
-import com.vaadin.terminal.gwt.client.ui.dd.VHasDropHandler;
+import com.vaadin.client.ApplicationConnection;
+import com.vaadin.client.BrowserInfo;
+import com.vaadin.client.ComponentConnector;
+import com.vaadin.client.ConnectorMap;
+import com.vaadin.client.Paintable;
+import com.vaadin.client.UIDL;
+import com.vaadin.client.Util;
+import com.vaadin.client.ui.ClickEventHandler;
+import com.vaadin.client.ui.dd.VAbstractDropHandler;
+import com.vaadin.client.ui.dd.VAcceptCriterion;
+import com.vaadin.client.ui.dd.VDragAndDropManager;
+import com.vaadin.client.ui.dd.VDragEvent;
+import com.vaadin.client.ui.dd.VHasDropHandler;
+import com.vaadin.shared.MouseEventDetails;
+import com.vaadin.shared.ui.dd.AcceptCriterion;
 
 /**
  * Client side widget which communicates with the server. Messages from the
@@ -248,6 +252,7 @@ public class VCard extends AbsolutePanel implements Paintable, VHasDropHandler {
 
     }
 
+    @AcceptCriterion(AcceptCardWithSuite.class)
     public static class VAcceptCardWithSuite extends VAcceptCriterion {
 
         @Override
@@ -271,6 +276,7 @@ public class VCard extends AbsolutePanel implements Paintable, VHasDropHandler {
 
     }
 
+    @AcceptCriterion(AcceptCardWithColor.class)
     public static class VAcceptCardWithColor extends VAcceptCriterion {
 
         @Override
@@ -294,6 +300,7 @@ public class VCard extends AbsolutePanel implements Paintable, VHasDropHandler {
 
     }
 
+    @AcceptCriterion(AcceptCardWithRank.class)
     public static class VAcceptCardWithRank extends VAcceptCriterion {
 
         @Override

@@ -11,7 +11,7 @@
 	</context-param>
 	<servlet>
 		<servlet-name>Cards Application</servlet-name>
-		<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
+		<servlet-class>com.vaadin.server.LegacyVaadinServlet</servlet-class>
 		<init-param>
 			<description>
 			Vaadin application class to start</description>
@@ -27,7 +27,7 @@
 	</servlet>
 	<servlet>
 		<servlet-name>Solitaire</servlet-name>
-		<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
+		<servlet-class>com.vaadin.server.LegacyVaadinServlet</servlet-class>
 		<init-param>
 			<description>
 			Vaadin application class to start</description>

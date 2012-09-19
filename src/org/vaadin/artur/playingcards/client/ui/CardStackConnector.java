@@ -2,16 +2,16 @@ package org.vaadin.artur.playingcards.client.ui;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
-import com.vaadin.terminal.gwt.client.ApplicationConnection;
-import com.vaadin.terminal.gwt.client.ComponentConnector;
-import com.vaadin.terminal.gwt.client.Paintable;
-import com.vaadin.terminal.gwt.client.UIDL;
-import com.vaadin.terminal.gwt.client.ui.Connect;
-import com.vaadin.terminal.gwt.client.ui.customcomponent.CustomComponentConnector;
+import com.vaadin.client.ApplicationConnection;
+import com.vaadin.client.ComponentConnector;
+import com.vaadin.client.Paintable;
+import com.vaadin.client.UIDL;
+import com.vaadin.client.ui.customcomponent.CustomComponentConnector;
+import com.vaadin.shared.ui.Connect;
 
 @Connect(org.vaadin.artur.playingcards.CardStack.class)
 public class CardStackConnector extends CustomComponentConnector implements
-        Paintable {
+        com.vaadin.client.Paintable {
 
     @Override
     protected Widget createWidget() {

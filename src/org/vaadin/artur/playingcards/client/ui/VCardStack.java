@@ -6,16 +6,17 @@ import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Widget;
-import com.vaadin.terminal.gwt.client.ApplicationConnection;
-import com.vaadin.terminal.gwt.client.ComponentConnector;
-import com.vaadin.terminal.gwt.client.ConnectorMap;
-import com.vaadin.terminal.gwt.client.Paintable;
-import com.vaadin.terminal.gwt.client.ui.absolutelayout.VAbsoluteLayout;
-import com.vaadin.terminal.gwt.client.ui.absolutelayout.VAbsoluteLayout.AbsoluteWrapper;
-import com.vaadin.terminal.gwt.client.ui.customcomponent.VCustomComponent;
-import com.vaadin.terminal.gwt.client.ui.dd.VDragEvent;
-import com.vaadin.terminal.gwt.client.ui.dd.VDropHandler;
-import com.vaadin.terminal.gwt.client.ui.dd.VHasDropHandler;
+import com.vaadin.client.ApplicationConnection;
+import com.vaadin.client.ComponentConnector;
+import com.vaadin.client.ConnectorMap;
+import com.vaadin.client.Paintable;
+import com.vaadin.client.UIDL;
+import com.vaadin.client.ui.absolutelayout.VAbsoluteLayout;
+import com.vaadin.client.ui.absolutelayout.VAbsoluteLayout.AbsoluteWrapper;
+import com.vaadin.client.ui.customcomponent.VCustomComponent;
+import com.vaadin.client.ui.dd.VDragEvent;
+import com.vaadin.client.ui.dd.VDropHandler;
+import com.vaadin.client.ui.dd.VHasDropHandler;
 
 public class VCardStack extends VCustomComponent implements VHasDropHandler,
         Paintable {
@@ -26,8 +27,7 @@ public class VCardStack extends VCustomComponent implements VHasDropHandler,
     private ComponentConnector connector;
 
     @Override
-    public void updateFromUIDL(com.vaadin.terminal.gwt.client.UIDL uidl,
-            ApplicationConnection client) {
+    public void updateFromUIDL(UIDL uidl, ApplicationConnection client) {
         connector = ConnectorMap.get(client).getConnector(this);
         this.client = client;
         acceptDrop = uidl.getBooleanAttribute("acceptDrop");

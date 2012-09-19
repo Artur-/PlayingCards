@@ -6,7 +6,7 @@ import org.vaadin.artur.playingcards.CardStack;
 import org.vaadin.artur.playingcards.Deck;
 import org.vaadin.artur.playingcards.client.ui.Suite;
 
-import com.vaadin.Application.LegacyApplication;
+import com.vaadin.LegacyApplication;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.event.MouseEvents.ClickEvent;
@@ -18,7 +18,7 @@ import com.vaadin.event.dd.acceptcriteria.AcceptAll;
 import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Root.LegacyWindow;
+import com.vaadin.ui.UI.LegacyWindow;
 
 public class TestCards extends LegacyApplication {
 

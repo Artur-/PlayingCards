@@ -10,10 +10,10 @@ import org.vaadin.artur.playingcards.collection.ShufflableArrayList;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.MouseEvents.ClickEvent;
 import com.vaadin.event.MouseEvents.ClickListener;
-import com.vaadin.terminal.PaintException;
-import com.vaadin.terminal.PaintTarget;
-import com.vaadin.terminal.Vaadin6Component;
-import com.vaadin.terminal.gwt.client.MouseEventDetails;
+import com.vaadin.server.LegacyComponent;
+import com.vaadin.server.PaintException;
+import com.vaadin.server.PaintTarget;
+import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 
@@ -21,7 +21,7 @@ import com.vaadin.ui.Component;
  * Server side component for the VDeck widget.
  */
 public class Deck extends AbstractComponent implements CardContainer,
-        Vaadin6Component {
+        LegacyComponent {
 
     private ShufflableArrayList<Card> cards = new ShufflableArrayList<Card>();
 

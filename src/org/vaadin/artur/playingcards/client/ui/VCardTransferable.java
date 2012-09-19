@@ -1,7 +1,7 @@
 package org.vaadin.artur.playingcards.client.ui;
 
-import com.vaadin.terminal.gwt.client.ComponentConnector;
-import com.vaadin.terminal.gwt.client.ui.dd.VTransferable;
+import com.vaadin.client.ComponentConnector;
+import com.vaadin.client.ui.dd.VTransferable;
 
 public class VCardTransferable extends VTransferable {
 

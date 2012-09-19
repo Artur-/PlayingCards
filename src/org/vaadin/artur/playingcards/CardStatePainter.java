@@ -2,8 +2,8 @@ package org.vaadin.artur.playingcards;
 
 import org.vaadin.artur.playingcards.client.ui.VCardState;
 
-import com.vaadin.terminal.PaintException;
-import com.vaadin.terminal.PaintTarget;
+import com.vaadin.server.PaintException;
+import com.vaadin.server.PaintTarget;
 
 public class CardStatePainter extends VCardState {
     public static void paint(Card card, PaintTarget target)

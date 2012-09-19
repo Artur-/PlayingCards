@@ -4,12 +4,12 @@ import org.vaadin.artur.playingcards.client.ui.VCard.MyClickEventHandler;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
-import com.vaadin.terminal.gwt.client.ApplicationConnection;
-import com.vaadin.terminal.gwt.client.ComponentConnector;
-import com.vaadin.terminal.gwt.client.ConnectorMap;
-import com.vaadin.terminal.gwt.client.Paintable;
-import com.vaadin.terminal.gwt.client.UIDL;
-import com.vaadin.terminal.gwt.client.ui.ClickEventHandler;
+import com.vaadin.client.ApplicationConnection;
+import com.vaadin.client.ComponentConnector;
+import com.vaadin.client.ConnectorMap;
+import com.vaadin.client.Paintable;
+import com.vaadin.client.UIDL;
+import com.vaadin.client.ui.ClickEventHandler;
 
 /**
  * Client side widget which communicates with the server. Messages from the

@@ -14,10 +14,10 @@ import com.vaadin.event.dd.DragSource;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.DropTarget;
 import com.vaadin.event.dd.TargetDetails;
-import com.vaadin.terminal.PaintException;
-import com.vaadin.terminal.PaintTarget;
-import com.vaadin.terminal.Vaadin6Component;
-import com.vaadin.terminal.gwt.client.MouseEventDetails;
+import com.vaadin.server.LegacyComponent;
+import com.vaadin.server.PaintException;
+import com.vaadin.server.PaintTarget;
+import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
 
@@ -25,7 +25,7 @@ import com.vaadin.ui.Component;
  * Server side component for the VCard widget.
  */
 public class Card extends AbstractComponent implements DropTarget, DragSource,
-        Vaadin6Component {
+        LegacyComponent {
 
     public static int WIDTH = 104;
     public static int HEIGHT = 150;

@@ -1,6 +1,6 @@
 package org.vaadin.artur.playingcards.client.ui;
 
-import com.vaadin.terminal.gwt.client.UIDL;
+import com.vaadin.client.UIDL;
 
 public class VCardState {
 
