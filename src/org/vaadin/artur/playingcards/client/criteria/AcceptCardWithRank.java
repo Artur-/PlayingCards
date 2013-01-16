@@ -1,7 +1,6 @@
-package org.vaadin.artur.playingcards.criteria;
+package org.vaadin.artur.playingcards.client.criteria;
 
 import org.vaadin.artur.playingcards.Card.CardTransferable;
-import org.vaadin.artur.playingcards.client.ui.Suite.Color;
 
 import com.vaadin.event.Transferable;
 import com.vaadin.event.dd.DragAndDropEvent;
@@ -9,12 +8,12 @@ import com.vaadin.event.dd.acceptcriteria.ClientSideCriterion;
 import com.vaadin.server.PaintException;
 import com.vaadin.server.PaintTarget;
 
-public class AcceptCardWithColor extends ClientSideCriterion {
+public class AcceptCardWithRank extends ClientSideCriterion {
 
-    private Color color;
+    private int rank;
 
-    public AcceptCardWithColor(Color color) {
-        this.color = color;
+    public AcceptCardWithRank(int rank) {
+        this.rank = rank;
     }
 
     public boolean accept(DragAndDropEvent dragEvent) {
@@ -23,12 +22,12 @@ public class AcceptCardWithColor extends ClientSideCriterion {
             return false;
         }
 
-        return ((CardTransferable) t).getSuite().getColor() == color;
+        return ((CardTransferable) t).getRank() == rank;
     }
 
     @Override
     public void paintContent(PaintTarget target) throws PaintException {
         super.paintContent(target);
-        target.addAttribute("color", color.ordinal());
+        target.addAttribute("rank", rank);
     }
 }

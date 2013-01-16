@@ -1,8 +1,7 @@
 package org.vaadin.artur.playingcards.client.ui;
 
-import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Widget;
@@ -11,102 +10,116 @@ import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ConnectorMap;
 import com.vaadin.client.Paintable;
 import com.vaadin.client.UIDL;
-import com.vaadin.client.ui.absolutelayout.VAbsoluteLayout;
-import com.vaadin.client.ui.absolutelayout.VAbsoluteLayout.AbsoluteWrapper;
-import com.vaadin.client.ui.customcomponent.VCustomComponent;
+import com.vaadin.client.ui.VAbsoluteLayout;
+import com.vaadin.client.ui.VCustomComponent;
 import com.vaadin.client.ui.dd.VDragEvent;
 import com.vaadin.client.ui.dd.VDropHandler;
 import com.vaadin.client.ui.dd.VHasDropHandler;
 
 public class VCardStack extends VCustomComponent implements VHasDropHandler,
-        Paintable {
+		Paintable {
 
-    private VDropHandler dropHandler;
-    private ApplicationConnection client;
-    private boolean acceptDrop;
-    private ComponentConnector connector;
+	private VDropHandler dropHandler;
+	private ApplicationConnection client;
+	private boolean acceptDrop;
+	private ComponentConnector connector;
 
-    @Override
-    public void updateFromUIDL(UIDL uidl, ApplicationConnection client) {
-        connector = ConnectorMap.get(client).getConnector(this);
-        this.client = client;
-        acceptDrop = uidl.getBooleanAttribute("acceptDrop");
-    };
+	@Override
+	public void updateFromUIDL(UIDL uidl, ApplicationConnection client) {
+		connector = ConnectorMap.get(client).getConnector(this);
+		this.client = client;
+		acceptDrop = uidl.getBooleanAttribute("acceptDrop");
+	};
 
-    Element getDragImage(VCard child) {
-        Element e = Document.get().createDivElement().cast();
-        e.getStyle().setPosition(Position.ABSOLUTE);
-        VAbsoluteLayout layout = (VAbsoluteLayout) getWidget();
-        Widget wrapper = child.getParent();
-        int topOffset = getTop(wrapper);
+	Element getDragImage(VCard child) {
+		VAbsoluteLayout layout = (VAbsoluteLayout) getWidget();
+		Widget wrapper = child.getParent();
 
-        int childIndex = layout.getWidgetIndex(wrapper);
-        int height = 0;
+		Element childWrapperElement = wrapper.getElement();
+		Element clonedContainer = childWrapperElement.getParentElement().cloneNode(true)
+				.cast();
+		int topOffsetChild = getTop(wrapper);
 
-        for (int i = childIndex; i < layout.getWidgetCount(); i++) {
-            AbsoluteWrapper widget = (AbsoluteWrapper) layout.getWidget(i);
-            int cloneTop = getTop(widget);
+		// Remove cards before the selected one as these are not being dragged
+		while (clonedContainer.getFirstChildElement().equals(childWrapperElement)) {
+			com.google.gwt.dom.client.Element childE = clonedContainer.getFirstChildElement();
+			childE.removeFromParent();
+		}
 
-            Element clone = widget.getElement().cloneNode(true).cast();
-            clone.getStyle().setTop(cloneTop - topOffset, Unit.PX);
-            height = cloneTop - topOffset + widget.getOffsetHeight();
-            e.appendChild(clone);
-        }
-        // IE dies without these, don't know why
-        Style style = e.getStyle();
-        style.setWidth(getOffsetWidth(), Unit.PX);
-        style.setHeight(height, Unit.PX);
-        style.setPadding(1, Unit.PX);
+		int cardHeight = child.getOffsetHeight();
+		int cardWidth = child.getOffsetWidth();
+		int height = 0;
+		for (int i = 0; i < clonedContainer.getChildCount(); i++) {
+			// Adjust top with the offset of the first child so the first card
+			// is at 0
+			Node n = clonedContainer.getChild(i);
+			if (!Element.is(n))
+				continue;
+			Element elem = (Element) n;
+			int thisTop = getTop(elem);
+			elem.getStyle().setTop(thisTop - topOffsetChild, Unit.PX);
+			height = thisTop - topOffsetChild + cardHeight;
+		}
 
-        return e;
+		// IE dies without these, don't know why
+		Style style = clonedContainer.getStyle();
+		style.setWidth(cardWidth, Unit.PX);
+		style.setHeight(height, Unit.PX);
+		style.setPadding(1, Unit.PX);
 
-    }
+		return clonedContainer;
 
-    private int getTop(Widget wrapper) {
-        String top = wrapper.getElement().getStyle().getTop();
-        if (top != null && top.endsWith("px")) {
-            int t = Integer.parseInt(top.substring(0, top.length() - 2));
-            return t;
-        }
+	}
 
-        return 0;
-    }
+	private int getTop(Widget wrapper) {
+		return getTop(wrapper.getElement());
+	}
 
-    public VDropHandler getDropHandler() {
-        if (dropHandler == null) {
-            dropHandler = new VDropHandler() {
+	private int getTop(Element element) {
+		String top = element.getStyle().getTop();
+		if (top != null && top.endsWith("px")) {
+			int t = Integer.parseInt(top.substring(0, top.length() - 2));
+			return t;
+		}
 
-                public ApplicationConnection getApplicationConnection() {
-                    return client;
-                }
+		return 0;
+	}
 
-                public boolean drop(VDragEvent drag) {
-                    if (!acceptDrop) {
-                        return false;
-                    }
+	public VDropHandler getDropHandler() {
+		if (dropHandler == null) {
+			dropHandler = new VDropHandler() {
 
-                    return true;
-                }
+				public ApplicationConnection getApplicationConnection() {
+					return client;
+				}
 
-                public void dragOver(VDragEvent currentDrag) {
+				public boolean drop(VDragEvent drag) {
+					if (!acceptDrop) {
+						return false;
+					}
 
-                }
+					return true;
+				}
 
-                public void dragLeave(VDragEvent drag) {
+				public void dragOver(VDragEvent currentDrag) {
 
-                }
+				}
 
-                public void dragEnter(VDragEvent drag) {
+				public void dragLeave(VDragEvent drag) {
 
-                }
+				}
 
-                @Override
-                public ComponentConnector getConnector() {
-                    return connector;
-                }
-            };
-        }
+				public void dragEnter(VDragEvent drag) {
 
-        return dropHandler;
-    }
+				}
+
+				@Override
+				public ComponentConnector getConnector() {
+					return connector;
+				}
+			};
+		}
+
+		return dropHandler;
+	}
 }

@@ -10,12 +10,12 @@ import org.vaadin.artur.playingcards.collection.ShufflableArrayList;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.MouseEvents.ClickEvent;
 import com.vaadin.event.MouseEvents.ClickListener;
-import com.vaadin.server.LegacyComponent;
 import com.vaadin.server.PaintException;
 import com.vaadin.server.PaintTarget;
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.LegacyComponent;
 
 /**
  * Server side component for the VDeck widget.

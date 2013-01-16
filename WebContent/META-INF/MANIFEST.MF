@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Vendor: Artur Signell
 Implementation-Title: PlayingCards
-Implementation-Version: 0.8.0
+Implementation-Version: 0.8.1
 Vaadin-Package-Version: 1
-Class-Path: 
 Vaadin-Widgetsets: org.vaadin.artur.playingcards.PlayingCardsWidgetset
+Class-Path: 
 Vaadin-Addon: playingcards-0.3.0.jar
 

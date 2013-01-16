@@ -3,10 +3,10 @@ package org.vaadin.artur.playingcards.client.ui;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.vaadin.artur.playingcards.client.criteria.AcceptCardWithColor;
+import org.vaadin.artur.playingcards.client.criteria.AcceptCardWithRank;
+import org.vaadin.artur.playingcards.client.criteria.AcceptCardWithSuite;
 import org.vaadin.artur.playingcards.client.ui.Suite.Color;
-import org.vaadin.artur.playingcards.criteria.AcceptCardWithColor;
-import org.vaadin.artur.playingcards.criteria.AcceptCardWithRank;
-import org.vaadin.artur.playingcards.criteria.AcceptCardWithSuite;
 
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;

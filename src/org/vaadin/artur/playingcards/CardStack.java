@@ -8,11 +8,11 @@ import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.event.dd.DropHandler;
 import com.vaadin.event.dd.DropTarget;
 import com.vaadin.event.dd.TargetDetails;
-import com.vaadin.server.LegacyComponent;
 import com.vaadin.server.PaintException;
 import com.vaadin.server.PaintTarget;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.LegacyComponent;
 
 public class CardStack extends CustomComponent implements CardContainer,
         DropTarget, LegacyComponent {
