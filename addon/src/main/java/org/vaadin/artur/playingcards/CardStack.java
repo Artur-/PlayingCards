@@ -14,11 +14,11 @@ import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.LegacyComponent;
 
-public class CardStack extends CustomComponent implements CardContainer,
-        DropTarget, LegacyComponent {
+public class CardStack extends CustomComponent
+        implements CardContainer, DropTarget, LegacyComponent {
 
     private int spacing = 24;
-    private List<Card> cards = new ArrayList<Card>();
+    private List<Card> cards = new ArrayList<>();
     private AbsoluteLayout layout;
     private DropHandler dropHandler;
 
@@ -32,6 +32,7 @@ public class CardStack extends CustomComponent implements CardContainer,
         target.addAttribute("acceptDrop", isAcceptDrop());
     }
 
+    @Override
     public void addCard(Card c) {
         cards.add(c);
         c.setCardContainer(this);
@@ -55,6 +56,7 @@ public class CardStack extends CustomComponent implements CardContainer,
      * Removes the card from the CardStack. This method fails if the card is not
      * present in the stack.
      */
+    @Override
     public boolean removeCard(Card c) {
         int index = cards.indexOf(c);
         if (index < 0) {
@@ -86,11 +88,11 @@ public class CardStack extends CustomComponent implements CardContainer,
     }
 
     public void addListener(LayoutClickListener listener) {
-        layout.addListener(listener);
+        layout.addLayoutClickListener(listener);
     }
 
     public void removeListener(LayoutClickListener listener) {
-        layout.removeListener(listener);
+        layout.removeLayoutClickListener(listener);
     }
 
     public void deselectAll() {
@@ -108,6 +110,7 @@ public class CardStack extends CustomComponent implements CardContainer,
 
     }
 
+    @Override
     public boolean isEmpty() {
         return cards.isEmpty();
     }
@@ -121,19 +124,22 @@ public class CardStack extends CustomComponent implements CardContainer,
     }
 
     public List<Card> getCardsAbove(Card card) {
-        List<Card> cardsAbove = new ArrayList<Card>();
+        List<Card> cardsAbove = new ArrayList<>();
         int cardIndex = getCardPosition(card);
-        for (int aboveIndex = cardIndex + 1; aboveIndex < size(); aboveIndex++) {
+        for (int aboveIndex = cardIndex
+                + 1; aboveIndex < size(); aboveIndex++) {
             cardsAbove.add(getCard(aboveIndex));
         }
         return cardsAbove;
     }
 
+    @Override
     public TargetDetails translateDropTargetDetails(
             Map<String, Object> clientVariables) {
         return null;
     }
 
+    @Override
     public DropHandler getDropHandler() {
         return dropHandler;
     }
