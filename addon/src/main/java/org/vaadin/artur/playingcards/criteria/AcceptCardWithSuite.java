@@ -1,7 +1,7 @@
 package org.vaadin.artur.playingcards.criteria;
 
-import org.vaadin.artur.playingcards.Card.CardTransferable;
-import org.vaadin.artur.playingcards.client.ui.Suite;
+import org.vaadin.artur.playingcards.dnd.CardTransferable;
+import org.vaadin.artur.playingcards.shared.Suite;
 
 import com.vaadin.event.Transferable;
 import com.vaadin.event.dd.DragAndDropEvent;
@@ -17,6 +17,7 @@ public class AcceptCardWithSuite extends ClientSideCriterion {
         this.suite = suite;
     }
 
+    @Override
     public boolean accept(DragAndDropEvent dragEvent) {
         Transferable t = dragEvent.getTransferable();
         if (!(t instanceof CardTransferable)) {

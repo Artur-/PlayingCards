@@ -1,5 +1,7 @@
 package org.vaadin.artur.playingcards.client.ui;
 
+import org.vaadin.artur.playingcards.shared.Suite;
+
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ui.dd.VTransferable;
 

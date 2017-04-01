@@ -1,6 +1,6 @@
 package org.vaadin.artur.playingcards.criteria;
 
-import org.vaadin.artur.playingcards.Card.CardTransferable;
+import org.vaadin.artur.playingcards.dnd.CardTransferable;
 
 import com.vaadin.event.Transferable;
 import com.vaadin.event.dd.DragAndDropEvent;
@@ -16,6 +16,7 @@ public class AcceptCardWithRank extends ClientSideCriterion {
         this.rank = rank;
     }
 
+    @Override
     public boolean accept(DragAndDropEvent dragEvent) {
         Transferable t = dragEvent.getTransferable();
         if (!(t instanceof CardTransferable)) {

@@ -1,103 +1,66 @@
 package org.vaadin.artur.playingcards.app;
 
-import org.vaadin.artur.playingcards.Card;
-import org.vaadin.artur.playingcards.CardPile;
-import org.vaadin.artur.playingcards.CardStack;
-import org.vaadin.artur.playingcards.Deck;
-import org.vaadin.artur.playingcards.client.ui.Suite;
-
 import javax.servlet.annotation.WebServlet;
 
+import org.vaadin.artur.playingcards.Card;
+import org.vaadin.artur.playingcards.Deck;
+import org.vaadin.artur.playingcards.shared.Suite;
+
 import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.event.LayoutEvents.LayoutClickEvent;
-import com.vaadin.event.LayoutEvents.LayoutClickListener;
-import com.vaadin.event.MouseEvents.ClickEvent;
-import com.vaadin.event.MouseEvents.ClickListener;
-import com.vaadin.event.Transferable;
-import com.vaadin.event.dd.DragAndDropEvent;
-import com.vaadin.event.dd.DropHandler;
-import com.vaadin.event.dd.acceptcriteria.AcceptAll;
-import com.vaadin.event.dd.acceptcriteria.AcceptCriterion;
-import com.vaadin.server.VaadinServlet;
+import com.vaadin.event.dnd.DragSourceExtension;
+import com.vaadin.event.dnd.DropEvent;
+import com.vaadin.event.dnd.DropTargetExtension;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.server.VaadinServlet;
+import com.vaadin.shared.ui.dnd.EffectAllowed;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
 
 public class TestCards extends UI {
 
-	@WebServlet(value = "/*", asyncSupported = true)
-	@VaadinServletConfiguration(productionMode = false, ui = TestCards.class)
-	public static class Servlet extends VaadinServlet {
-	}
+    @WebServlet(value = "/*", asyncSupported = true)
+    @VaadinServletConfiguration(productionMode = false, ui = TestCards.class)
+    public static class Servlet extends VaadinServlet {
+    }
 
+    private Deck deck;
+    private Deck deck2;
 
+    @Override
+    protected void init(VaadinRequest request) {
+        CssLayout layout = new CssLayout();
+        layout.setWidth("100%");
+        setContent(layout);
 
-	private Deck deck;
-	private CardStack stack;
+        deck = new Deck();
+        deck.shuffle();
+        deck.addClickListener(event -> {
+            if (!deck.isEmpty()) {
+                Card card = new Card(deck.removeTopCard());
+                card.addClickListener(e -> {
+                    card.setSelected(!card.isSelected());
+                });
+                layout.addComponent(card);
+            }
+        });
+        layout.addComponent(deck);
+        DragSourceExtension deckDrag = new DragSourceExtension<>(deck);
+        deckDrag.setEffectAllowed(EffectAllowed.MOVE);
+        deckDrag.addDragEndListener(e -> {
+            System.out.println(e.getDropEffect());
+            System.out.println("drag end for deck");
+        });
+        new DropTargetExtension<>(layout)
+                .addDropListener((DropEvent<CssLayout> e) -> {
+                    System.out.println("drop for layout");
+                });
 
-	@Override
-	protected void init(VaadinRequest request) {
-		HorizontalLayout layout = new HorizontalLayout();
-		setContent(layout);
+        Card c1 = new Card(Suite.SPADES, 12);
+        c1.addClickListener(e -> c1.setBacksideUp(!c1.isBacksideUp()));
+        layout.addComponent(c1);
+        Card c2 = new Card(Suite.DIAMONDS, 1);
+        c2.addClickListener(e -> c2.setSelected(true));
+        layout.addComponent(c2);
 
-		deck = new Deck();
-		deck.addListener(new ClickListener() {
-
-			public void click(ClickEvent event) {
-				if (!deck.isEmpty()) {
-					stack.addCard(deck.removeTopCard());
-				}
-
-			}
-		});
-		layout.addComponent(deck);
-
-		Card c1 = new Card(Suite.SPADES, 12);
-		c1.setDropHandler(new DropHandler() {
-
-			public void drop(DragAndDropEvent dropEvent) {
-				Transferable t = dropEvent.getTransferable();
-				Component source = t.getSourceComponent();
-				if (source instanceof Card) {
-					// Card sourceCard = (Card) source;
-				}
-			}
-
-			public AcceptCriterion getAcceptCriterion() {
-				return AcceptAll.get();
-			}
-
-		});
-
-		layout.addComponent(c1);
-		Card c2 = new Card(Suite.DIAMONDS, 1);
-		c2.addListener(new ClickListener() {
-
-			@Override
-			public void click(ClickEvent event) {
-				System.out.println("Foo");
-			}
-		});
-		layout.addComponent(c2);
-
-		stack = new CardStack();
-		stack.addListener(new LayoutClickListener() {
-
-			public void layoutClick(LayoutClickEvent event) {
-				Card c = (Card) event.getChildComponent();
-				if (c != null) {
-					c.setSelected(!c.isSelected());
-				}
-
-			}
-		});
-		stack.addCard(deck.removeTopCard());
-		layout.addComponent(stack);
-
-		CardPile pile = new CardPile();
-		pile.addCard(deck.removeTopCard());
-
-		layout.addComponent(pile);
-	}
+    }
 }

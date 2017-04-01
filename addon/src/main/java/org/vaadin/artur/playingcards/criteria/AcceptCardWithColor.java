@@ -1,7 +1,7 @@
 package org.vaadin.artur.playingcards.criteria;
 
-import org.vaadin.artur.playingcards.Card.CardTransferable;
-import org.vaadin.artur.playingcards.client.ui.Suite.Color;
+import org.vaadin.artur.playingcards.dnd.CardTransferable;
+import org.vaadin.artur.playingcards.shared.Suite.Color;
 
 import com.vaadin.event.Transferable;
 import com.vaadin.event.dd.DragAndDropEvent;
@@ -17,6 +17,7 @@ public class AcceptCardWithColor extends ClientSideCriterion {
         this.color = color;
     }
 
+    @Override
     public boolean accept(DragAndDropEvent dragEvent) {
         Transferable t = dragEvent.getTransferable();
         if (!(t instanceof CardTransferable)) {

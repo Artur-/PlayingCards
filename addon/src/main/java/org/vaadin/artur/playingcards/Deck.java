@@ -1,113 +1,74 @@
 package org.vaadin.artur.playingcards;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
 
-import org.vaadin.artur.playingcards.client.ui.Suite;
-import org.vaadin.artur.playingcards.client.ui.VCard;
-import org.vaadin.artur.playingcards.client.ui.VDeck;
-import org.vaadin.artur.playingcards.collection.ShufflableArrayList;
+import org.vaadin.artur.playingcards.shared.Suite;
+import org.vaadin.elements.ElementIntegration;
+import org.vaadin.elements.Root;
 
-import com.vaadin.event.LayoutEvents.LayoutClickEvent;
+import com.vaadin.annotations.HtmlImport;
+import com.vaadin.annotations.JavaScript;
 import com.vaadin.event.MouseEvents.ClickEvent;
 import com.vaadin.event.MouseEvents.ClickListener;
-import com.vaadin.server.PaintException;
-import com.vaadin.server.PaintTarget;
-import com.vaadin.shared.MouseEventDetails;
-import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.LegacyComponent;
+import com.vaadin.shared.Registration;
+import com.vaadin.ui.AbstractJavaScriptComponent;
 
 /**
- * Server side component for the VDeck widget.
+ * Representation of a deck of cards or an empty placeholder where the deck
+ * would be.
+ *
+ * Optionally shows the top card and the number of cards in the deck.
  */
-public class Deck extends AbstractComponent implements CardContainer,
-        LegacyComponent {
+@JavaScript("frontend:///webcomponentsjs/webcomponents-lite.js")
+@JavaScript("deck.js")
+@HtmlImport("frontend://game-card/game-card-deck.html")
+public class Deck extends AbstractJavaScriptComponent {
 
-    private ShufflableArrayList<Card> cards = new ShufflableArrayList<Card>();
-
-    private boolean showTopCard = false;
+    private ArrayList<CardInfo> cards = new ArrayList<>();
+    private Root element = ElementIntegration.getRoot(this);
 
     public Deck() {
+        element.addEventListener("click", e -> {
+            fireClick();
+        });
+
         reset();
+
     }
 
-    @Override
-    public void paintContent(PaintTarget target) throws PaintException {
-
-        target.addAttribute("cardsInDeck", size());
-        target.addAttribute("showTopCard", isShowTopCard());
-    }
-
-    public int size() {
+    public int getNumberOfCards() {
         return cards.size();
     }
 
     public void shuffle() {
         for (int i = 0; i < 10; i++) {
-            cards.shuffle();
+            Collections.shuffle(cards);
         }
     }
 
-    /**
-     * Receive and handle events and other variable changes from the client.
-     * 
-     * {@inheritDoc}
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public void changeVariables(Object source, Map<String, Object> variables) {
-        // Variables set by the widget are returned in the "variables" map.
-
-        if (variables.containsKey(VDeck.CLICK_EVENT_IDENTIFIER)) {
-            fireClick((Map<String, Object>) variables
-                    .get(VDeck.CLICK_EVENT_IDENTIFIER));
-        }
-
+    private void fireClick() {
+        fireEvent(new ClickEvent(this, null));
     }
 
-    private void fireClick(Map<String, Object> parameters) {
-        MouseEventDetails mouseDetails = MouseEventDetails
-                .deSerialize((String) parameters.get("mouseDetails"));
-        Component childComponent = (Component) parameters.get("component");
-
-        fireEvent(new LayoutClickEvent(this, mouseDetails, childComponent,
-                childComponent));
-    }
-
-    public void addListener(ClickListener listener) {
-        super.addListener(VCard.CLICK_EVENT_IDENTIFIER, ClickEvent.class,
+    public Registration addClickListener(ClickListener listener) {
+        return super.addListener(Card.CLICK_EVENT_IDENTIFIER, ClickEvent.class,
                 listener, ClickListener.clickMethod);
     }
 
-    public void removeListener(ClickListener listener) {
-        super.removeListener(VCard.CLICK_EVENT_IDENTIFIER, ClickEvent.class,
-                listener);
-    }
-
-    public boolean isShowTopCard() {
-        return showTopCard;
-    }
-
-    public void setShowTopCard(boolean showTopCard) {
-        this.showTopCard = showTopCard;
-        requestRepaint();
-    }
-
-    public Card removeTopCard() {
+    public CardInfo removeTopCard() {
         if (cards.size() == 0) {
             return null;
         }
 
-        requestRepaint();
-
-        Card c = cards.remove(0);
-        c.setCardContainer(null);
+        CardInfo c = cards.remove(0);
+        updateNumberOfCards();
         return c;
     }
 
-    public void addCard(Card c) {
+    public void addCard(CardInfo c) {
         cards.add(c);
-        requestRepaint();
+        updateNumberOfCards();
     }
 
     public void reset() {
@@ -116,21 +77,20 @@ public class Deck extends AbstractComponent implements CardContainer,
         // Initialize deck with 52 cards, no jokers
         for (Suite suite : Suite.values()) {
             for (int i = 1; i <= 13; i++) {
-                Card c = new Card(suite, i);
-                c.setCardContainer(this);
+                CardInfo c = new CardInfo(suite, i);
                 cards.add(c);
             }
         }
-        requestRepaint();
+        updateNumberOfCards();
+    }
+
+    private void updateNumberOfCards() {
+        element.setAttribute("card-count", cards.size() + "");
     }
 
     private void removeAllCards() {
         cards.clear();
-        requestRepaint();
-    }
-
-    public boolean removeCard(Card card) {
-        return false;
+        updateNumberOfCards();
     }
 
     public boolean isEmpty() {
