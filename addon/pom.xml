@@ -91,7 +91,7 @@
 					                <Vaadin-Widgetsets>org.vaadin.artur.playingcards.PlayingCardsWidgetset</Vaadin-Widgetsets>
 
 					                <!-- Must not change this because of the Directory -->
-					               <Implementation-Title>${project.name}</Implementation-Title>
+					               <Implementation-Title>PlayingCards</Implementation-Title>
 					               <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
 						</manifestEntries>
 					</archive>
