@@ -1,8 +1,12 @@
 package org.vaadin.artur.playingcards.app;
 
+import java.util.Random;
+
 import javax.servlet.annotation.WebServlet;
 
 import org.vaadin.artur.playingcards.Card;
+import org.vaadin.artur.playingcards.CardInfo;
+import org.vaadin.artur.playingcards.CardPile;
 import org.vaadin.artur.playingcards.CardStack;
 import org.vaadin.artur.playingcards.Deck;
 import org.vaadin.artur.playingcards.shared.Suite;
@@ -69,6 +73,12 @@ public class TestCards extends UI {
         c2.addClickListener(e -> c2.setSelected(true));
         layout.addComponent(c2);
 
+        CardPile pile = new CardPile();
+        pile.addClickListener(e -> {
+            pile.addCard(
+                    new CardInfo(Suite.CLUBS, 1 + new Random().nextInt(13)));
+        });
+        layout.addComponent(pile);
         stackLayout = new HorizontalLayout();
 
         CardStack stack = new CardStack();
