@@ -102,4 +102,9 @@ public class CardInfo {
         return true;
     }
 
+    public boolean isOtherColorAndOneRankLower(CardInfo reference) {
+        return getSuite().getColor() != reference.getSuite().getColor()
+                && getRank() == reference.getRank() - 1;
+    }
+
 }

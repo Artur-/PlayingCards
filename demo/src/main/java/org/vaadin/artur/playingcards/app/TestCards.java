@@ -31,7 +31,6 @@ public class TestCards extends UI {
     }
 
     private Deck deck;
-    private Deck deck2;
     private CardStack nextStack;
     private HorizontalLayout stackLayout;
 

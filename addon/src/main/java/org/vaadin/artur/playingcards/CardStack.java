@@ -2,6 +2,7 @@ package org.vaadin.artur.playingcards;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.shared.Registration;
@@ -75,7 +76,7 @@ public class CardStack extends CustomComponent {
     }
 
     public boolean removeCard(Card card) {
-        int cardIndex = cards.indexOf(card);
+        int cardIndex = getCardPosition(card);
         if (cardIndex == -1) {
             return false;
         }
@@ -90,6 +91,16 @@ public class CardStack extends CustomComponent {
         return true;
     }
 
+    public boolean removeCard(CardInfo card) {
+        for (Card c : cards) {
+            if (c.getCardInfo().equals(card)) {
+                return removeCard(c);
+            }
+        }
+
+        return false;
+    }
+
     public void removeAllCards() {
         layout.removeAllComponents();
         cards.clear();
@@ -102,8 +113,42 @@ public class CardStack extends CustomComponent {
         }
     }
 
+    public Optional<Card> getFirstSelected() {
+        List<Card> selected = getSelected();
+        if (selected.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(selected.get(0));
+        }
+
+    }
+
+    public List<Card> getSelected() {
+        List<Card> selected = new ArrayList<>();
+
+        for (Card c : cards) {
+            if (c.isSelected()) {
+                selected.add(c);
+            }
+        }
+
+        return selected;
+    }
+
     public Registration addLayoutClickListener(LayoutClickListener listener) {
+        // layout.addLayoutClickListener(e -> {
+        // fireEvent(e);
+        // });
         return layout.addLayoutClickListener(listener);
+    }
+
+    public boolean containsCard(CardInfo cardToFind) {
+        for (Card card : cards) {
+            if (cardToFind.equals(card.getCardInfo())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -22,6 +22,7 @@ import com.vaadin.ui.AbstractJavaScriptComponent;
 @JavaScript("cardpile.js")
 @HtmlImport("frontend://game-card/game-card-pile.html")
 public class CardPile extends AbstractJavaScriptComponent {
+    private static final String ATTR_TOP_CARD_SELECTED = "top-card-highlighted";
     private List<CardInfo> cards = new ArrayList<>();
     private Root element;
 
@@ -72,6 +73,7 @@ public class CardPile extends AbstractJavaScriptComponent {
         if (isEmpty()) {
             element.setAttribute("top-card-symbol", "");
             element.setAttribute("top-card-rank", "");
+            element.removeAttribute(ATTR_TOP_CARD_SELECTED);
         } else {
             element.setAttribute("top-card-symbol", getTopCard().getSymbol());
             element.setAttribute("top-card-rank", getTopCard().getRankSymbol());
@@ -90,6 +92,18 @@ public class CardPile extends AbstractJavaScriptComponent {
 
     public List<CardInfo> getCards() {
         return cards;
+    }
+
+    public void setTopCardSelected(boolean topCardSelected) {
+        if (topCardSelected) {
+            element.setAttribute(ATTR_TOP_CARD_SELECTED, topCardSelected);
+        } else {
+            element.removeAttribute(ATTR_TOP_CARD_SELECTED);
+        }
+    }
+
+    public boolean isTopCardSelected() {
+        return element.hasAttribute(ATTR_TOP_CARD_SELECTED);
     }
 
 }
